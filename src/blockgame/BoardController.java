@@ -23,7 +23,6 @@ public class BoardController extends JPanel implements ActionListener {
 
 	private Shape droping;
 
-
 	private Timer timer;
 	private float time = 0f;
 
@@ -37,12 +36,11 @@ public class BoardController extends JPanel implements ActionListener {
 
 	private NextPiece nextPiece;
 	private Tetrominoes nextTetramino;
-	
+
 	private BoardDrawer drawer;
 
 	public BoardController(Tetris tetris, NextPiece nextP) {
-		
-		
+
 		drawer = new BoardDrawer(squereSize, width, height);
 		timer = new Timer(32, this);
 
@@ -75,9 +73,6 @@ public class BoardController extends JPanel implements ActionListener {
 		isRunning = true;
 	}
 
-
-
-	@Override
 	public void actionPerformed(ActionEvent e) {
 
 		if (!isRunning) {
@@ -242,20 +237,14 @@ public class BoardController extends JPanel implements ActionListener {
 		super.paint(g);
 		drawer.drawGrid(g);
 		drawer.drawGhostShape(droping, ghostShape, g);
-		drawer.drawFallenShapes(g,board);
+		drawer.drawFallenShapes(g, board);
 		drawer.drawShape(droping, g);
 	}
 
-
-
-	
 	public Boolean getIsRunning() {
 		return isRunning;
 	}
 
-
-
-	
 	public void setIsRunning(Boolean isRunning) {
 		this.isRunning = isRunning;
 	}
