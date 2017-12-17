@@ -46,7 +46,7 @@ public class NextPiece extends JPanel {
 		int offy = 50;
 		int offx = 25;
 
-		Color c = Board.shapeToColor(t);
+		Color c = BoardDrawer.shapeToColor(t);
 		c = c.darker();
 		g.setColor(c);
 		g.fillRect(x * squereSize + offx, y * squereSize + offy, squereSize, squereSize);

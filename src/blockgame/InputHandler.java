@@ -5,8 +5,8 @@ import java.awt.event.KeyEvent;
 
 public class InputHandler extends KeyAdapter {
 	
-	private Board  board;
-	public InputHandler(Board board) {
+	private BoardController  board;
+	public InputHandler(BoardController board) {
 		this.board = board;
 	}
 	@Override
@@ -18,7 +18,7 @@ public class InputHandler extends KeyAdapter {
 			board.pause();
 		}
 
-		if (!board.isRunning) {
+		if (!board.getIsRunning()) {
 			return;
 		}
 

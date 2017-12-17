@@ -1,6 +1,5 @@
 package blockgame;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,37 +8,42 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class Board extends JPanel implements ActionListener {
+public class BoardController extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	final int width = 10;
 	final int height = 22;
 	final int squereSize = 16;
 
-	int score = 0;
+	private int score = 0;
 
-	JLabel statusbar;
+	private JLabel statusbar;
 
-	Tetrominoes[][] board;
+	private Tetrominoes[][] board;
 
-	Shape droping;
-	int t = 0;
+	private Shape droping;
 
-	Timer timer;
-	float time = 0f;
 
-	Boolean fastDrop = false;
+	private Timer timer;
+	private float time = 0f;
+
+	private Boolean fastDrop = false;
 
 	private InputHandler handler;
 
-	Boolean isRunning;
+	private Boolean isRunning;
 
-	Shape ghostShape;
+	private Shape ghostShape;
 
-	NextPiece nextPiece;
-	Tetrominoes nextTetramino;
+	private NextPiece nextPiece;
+	private Tetrominoes nextTetramino;
+	
+	private BoardDrawer drawer;
 
-	public Board(Tetris tetris, NextPiece nextP) {
+	public BoardController(Tetris tetris, NextPiece nextP) {
+		
+		
+		drawer = new BoardDrawer(squereSize, width, height);
 		timer = new Timer(32, this);
 
 		nextPiece = nextP;
@@ -236,86 +240,24 @@ public class Board extends JPanel implements ActionListener {
 
 	public void paint(Graphics g) {
 		super.paint(g);
-
-		drawGrid(g);
-		drawGhostShape(droping, ghostShape, g);
-		drawFallenShapes(g);
-		drawShape(droping, g);
+		drawer.drawGrid(g);
+		drawer.drawGhostShape(droping, ghostShape, g);
+		drawer.drawFallenShapes(g,board);
+		drawer.drawShape(droping, g);
 	}
 
-	private void drawFallenShapes(Graphics g) {
-		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {
-				if (board[x][y] != Tetrominoes.NoShape) {
-					Color color = shapeToColor(board[x][y]);
-					drawShapePixel(g, x, y, color);
-				}
-			}
-		}
+
+
+	
+	public Boolean getIsRunning() {
+		return isRunning;
 	}
 
-	private void drawGhostShape(Shape droping, Shape ghostShape, Graphics g) {
-		Color c = shapeToColor(droping.getType());
 
-		for (int i = 0; i < 4; i++) {
-			g.setColor(c);
-			g.drawRect((ghostShape.getX() + ghostShape.getX(i)) * (squereSize) + 1, (ghostShape.getY() - ghostShape.getY(i)) * squereSize + 1,
-					squereSize - 2, squereSize - 2);
-			c = c.darker();
-			g.setColor(c);
-			g.drawRect((ghostShape.getX()  + ghostShape.getX(i)) * squereSize, (ghostShape.getY() - ghostShape.getY(i)) * squereSize, squereSize,
-					squereSize);
-			c = c.brighter();
-		}
-	}
 
-	private void drawShape(Shape droping, Graphics g) {
-		Color c = shapeToColor(droping.getType());
-		for (int i = 0; i < 4; i++) {
-			drawShapePixel(g, (droping.getX() + droping.getX(i)), (droping.getY() - droping.getY(i)), c);
-		}
-	}
-
-	private void drawGrid(Graphics g) {
-
-		g.setColor(new Color(180, 180, 180));
-		for (int x = 0; x <= height; x++) {
-			g.drawLine(0, x * squereSize, width * squereSize, x * squereSize);
-		}
-		for (int y = 0; y <= width; y++) {
-			g.drawLine(y * squereSize, 0, y * squereSize, height * squereSize);
-		}
-	}
-
-	public void drawShapePixel(Graphics g, int x, int y, Color c) {
-
-		c = c.darker();
-		g.setColor(c);
-		g.fillRect(x * squereSize, y * squereSize, squereSize, squereSize);
-
-		c = c.brighter();
-		g.setColor(c);
-		g.fillRect((x * squereSize) + 1, (y * squereSize) + 1, squereSize - 2, squereSize - 2);
-
-	}
-
-	public static Color shapeToColor(Tetrominoes shape) {
-		if (shape == Tetrominoes.LineShape)
-			return Color.CYAN;
-		if (shape == Tetrominoes.SquareShape)
-			return Color.YELLOW;
-		if (shape == Tetrominoes.TShape)
-			return Color.MAGENTA;
-		if (shape == Tetrominoes.SShape)
-			return Color.GREEN;
-		if (shape == Tetrominoes.ZShape)
-			return Color.RED;
-		if (shape == Tetrominoes.MirroredLShape)
-			return Color.BLUE;
-		if (shape == Tetrominoes.LShape)
-			return Color.ORANGE;
-
-		return Color.BLACK;
+	
+	public void setIsRunning(Boolean isRunning) {
+		this.isRunning = isRunning;
 	}
 
 }

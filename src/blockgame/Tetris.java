@@ -23,7 +23,7 @@ public class Tetris extends JFrame {
         NextPiece next = new NextPiece();
         box2.add(next);
 		
-        Board b = new Board(this, next);
+        BoardController b = new BoardController(this, next);
       
         box.add(b);
         
